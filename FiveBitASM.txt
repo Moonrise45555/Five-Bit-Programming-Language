@@ -1,0 +1,83 @@
+Five Bit Assembler : Documentation
+
+Basics:
+Five Bit Assembler (FBA) is a language optimized to have every line of code be able to be displayed in 5 bits.
+It was made for 
+
+Syntax:
+Every Instruction goes through 5 bits. The first 3 bits are used to determine the instruction to execute, while the last 2 bits are the arguments.
+Sometimes, an Instruction also takes the next 1 or 2 row of bits as arguments.
+
+Instructions:
+
+First argument is referred to as Arg0, second as Arg1, 
+
+000 - SET instruction:
+Arg0 and Arg1 determine the register to be set. The next row of bits get moved into the register.
+
+001 - PUSH instruction:
+Pushes the number from the register from Arg0 and Arg1 on top of the stack.
+
+010 - POP instruction:
+Sets the register from Arg0 and Arg1 to the number from the top of the stack. Removes the top number from the stack.
+
+011 - SYSCALL instruction:
+Takes the number in Reg0 and Looks it up in a table. 
+
+100 - ADD instruction:
+Adds the register indicated in Arg0 to the number in the register of Arg1 and stores it in Arg1.
+
+101 - SUB instruction:
+Subtracts the register indicated in Arg0 from the number in the register of Arg1 and stores it in Arg1.
+
+110 - JUMP instruction:
+Jumps the instruction pointer to the inputted label. If the number in Arg1 and Arg0 == 0, it always jumps. 1, it Only jumps if the last operation resulted in a number below 0, 
+2, if the last operation resulted in a ////, 3, if the last operation resulted in a ////
+
+111 - LABEL instruction:
+
+
+SYSCALL Table:
+
+0  | Prints the number in Reg1 in binary
+1  | Exits the program
+2  | Accepts input and stores it in Reg0
+3  | Makes a sound in the frequency of the number in Reg1
+4  | 
+5  |
+6  |
+7  |
+8  |
+9  |
+10 |
+
+
+
+
+
+
+
+
+
+
+
+
+01100
+01101
+01110
+01111
+10111
+11001
+11010
+11011
+11100
+11101
+11110
+11111
+
+
+
+
+
+
+
