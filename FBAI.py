@@ -1,5 +1,6 @@
 import sys
 file_path = sys.argv[1]
+Labels = [0] * 32
 with open(file_path, 'r') as file:
     file_contents = file.read()
 
@@ -25,6 +26,12 @@ def BinaryToNumber(arrayofint):
 
 def s2a(a):
     return [int(a[0]),int(a[1]),int(a[2])]
+
+def AddsIfLabel(test, textplusone):
+    global InstructPointer
+    global Labels
+    if test[0] == "1" and test[1] =="1" and test[2]  == "1":
+        Labels[BinaryToNumber([int(x) for x in textplusone])] = InstructPointer
 
 def execute(text,NextText="00000"):
     global InstructPointer
@@ -63,12 +70,18 @@ def execute(text,NextText="00000"):
     if instruction == s2a("111"):
         return "LABEL"
     if instruction == s2a("110"):
-        pass
+        InstructPointer = Labels[BinaryToNumber(NextText)]
+        return "JUMP"
 fs = ""
 for char in file_contents:
     if char == "0" or char == "1":
         fs += char
 fixed_string = SplitToInstructions(fs)
+while InstructPointer <= len(fixed_string) - 1:
+    if InstructPointer != len(fixed_string) - 1:
+        AddsIfLabel(fixed_string[InstructPointer], fixed_string[InstructPointer + 1])
+    InstructPointer += 1
+InstructPointer = 0
 while InstructPointer <= len(fixed_string) - 1:
 
     if InstructPointer ==len(fixed_string) - 1:
