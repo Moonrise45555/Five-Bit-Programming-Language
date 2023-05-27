@@ -31,10 +31,10 @@ Adds the register indicated in Arg0 to the number in the register of Arg1 and st
 Subtracts the register indicated in Arg0 from the number in the register of Arg1 and stores it in Arg1.
 
 110 - JUMP instruction:
-Jumps the instruction pointer to the Label indicated from the next line of number. if Arg0 and Arg1 == 0, it always jump
-== 1, it only jumps if theres an underflow
-== 2, it only jumps if it equaled 0
-== 3, it only jumps if the Arg1 > Arg0
+Jumps the instruction pointer to the Label indicated from the next line of number. if Arg0 and Arg1 == 0, it always jumps
+== 2, it only jumps if theres an underflow
+== 1, it only jumps if it equaled 0
+== 3, it only jumps if Arg0 > Arg1
 
 111 - LABEL instruction:
 

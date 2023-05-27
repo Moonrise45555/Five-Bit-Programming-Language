@@ -10,6 +10,10 @@ def SplitToInstructions(string):
 Registers = [0,0,0,0]
 InstructPointer = 0
 Stack = []
+EqualsZero = 0
+Underflow = 0
+OBiggerThan1 = 0
+
 
 def BinaryToNumber(arrayofint):
     Index = len(arrayofint) - 1
@@ -33,6 +37,23 @@ def AddsIfLabel(test, textplusone):
     if test[0] == "1" and test[1] =="1" and test[2]  == "1":
         Labels[BinaryToNumber([int(x) for x in textplusone])] = InstructPointer
 
+def SetFlags(Arg1,Arg2):
+    global Underflow
+    global OBiggerThan1
+    global EqualsZero
+    if Arg1 + Arg2 == 0:
+        EqualsZero = 1
+    else:
+        EqualsZero = 0
+    if Arg1 + Arg2 < 0:
+        Underflow = 1
+    else:
+        Underflow = 0
+    if Arg1 > Arg2:
+        OBiggerThan1 = 1
+    else:
+        OBiggerThan1 = 0
+    
 def execute(text,NextText="00000"):
     global InstructPointer
     global Registers
@@ -61,16 +82,21 @@ def execute(text,NextText="00000"):
         return "SYSCALL"
     if instruction == s2a("100"):
         # ADD
+        SetFlags(Registers[text[3]],Registers[text[4]])
         Registers[text[4]] =  Registers[text[3]] + Registers[text[4]]
         return "ADD"
     if instruction == s2a("101"):
         # SUB
+        SetFlags(-1 * Registers[text[3]], Registers[text[4]])
         Registers[text[4]] =    Registers[text[4]] - Registers[text[3]]
         return "ADD"
     if instruction == s2a("111"):
         return "LABEL"
     if instruction == s2a("110"):
-        InstructPointer = Labels[BinaryToNumber(NextText)]
+        if (Arguments == 1 and EqualsZero == 1) or (Arguments == 2 and Underflow == 1) or (Arguments == 3 and OBiggerThan1 == 1):
+            return "JZMP"
+        else:
+            InstructPointer = Labels[BinaryToNumber(NextText)]
         return "JUMP"
 fs = ""
 for char in file_contents:
