@@ -1,52 +1,58 @@
 #include <stdio.h>
-#define MAX_SIZE 1000
-char rawCode[MAX_SIZE];
+#include <stdlib.h>
+#include <string.h>
+
+char * rawCode;
+char * ProcessedCode;
+int CharCount = 1000;
 int GetCode(char filename[]);
+void SplitToInstructions(char *bits);
+
+
 int main(int argc, char *argv[]) 
 {
+    char b[CharCount];
+    rawCode = &b;
+    char a[5][CharCount / 5];
+    ProcessedCode = &a;
 
     GetCode(argv[1]);
-    for (int i = 0; i < MAX_SIZE; i++)
+    SplitToInstructions(rawCode);
+
+   
+
+    for (int i = 0; i < CharCount; i++)
     {
-        printf("%s \n",SplitToInstructions(&rawCode[i]));
+        printf("%s \n",ProcessedCode[i]);
     }
     
 }
 int GetCode(char filename[])
 {
-    char buffer[MAX_SIZE];
-
+    FILE *file = fopen(filename, "r");
+    if (file) {
+        CharCount = fread(rawCode, sizeof(char), 1000, file);
+        fclose(file);
+    }
 
    
-    FILE *file = fopen(filename, "r");
-
-    if (file == NULL) {
-        printf("Unable to open the file.\n");
-        return 1;
-    }
-
     
-    while (fgets(rawCode, MAX_SIZE, file) != NULL) {
-    }
-
-    fclose(file);
-
-    return 0;
 }
-void SplitToInstructions(char bits[])
+void SplitToInstructions(char *bits)
 {
 
-    //pretty inefficient as it uses MAX_SIZE as a constant size, but speed isnt really a concern right now
-    char instructs[5][MAX_SIZE];
-    for (int i = 0; i < MAX_SIZE; i += 5)
+    //god i need to learn actual C at some point
+    for (int i = 0; i < CharCount; i += 5)
     {
-
-        instructs[i / 5][0] = bits[i + 0];
-        instructs[i / 5][1] = bits[i + 1]; 
-        instructs[i / 5][2] = bits[i + 2]; 
-        instructs[i / 5][3] = bits[i + 3]; 
-        instructs[i / 5][4] = bits[i + 4];    
+        //printf("%c - %c - %c - %c - %c \n", bits[0+i],bits[1+i],bits[2+i],bits[3+i],bits[4+i]);
+        ProcessedCode[i / 5] = bits[i + 0];
+        ProcessedCode[i / 5] = bits[i + 1]; 
+        ProcessedCode[i / 5] = bits[i + 2]; 
+        ProcessedCode[i / 5] = bits[i + 3]; 
+        ProcessedCode[i / 5] = bits[i + 4];
+        //printf("%c - %c - %c - %c - %c \n", ProcessedCode[i/5][0], ProcessedCode[i/5][1], ProcessedCode[i/5][2], ProcessedCode[i/5][3], ProcessedCode[i/5][4]);    
     }
-    &rawCode = instructs;
+    return;
+    
     
 }
